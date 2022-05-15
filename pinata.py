@@ -20,3 +20,9 @@ class Pinata():
             }
         response = requests.post(f'{self.base_url}pinning/pinFileToIPFS', headers=self.headers, files=files)
         return response.json()
+
+    def unpin_file(self, ipfs_hash):
+        response = requests.delete(f'{self.base_url}pinning/unpin/{ipfs_hash}', headers=self.headers)
+        if response.status_code != 200:
+            return {'status': "error", 'message': response.json()["error"]["details"]}
+        return {'status': "success", 'message': "Unpinning file successful"}
